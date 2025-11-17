@@ -1,0 +1,63 @@
+<!--[todo] 
+    - complete this file if it is needed
+    - this is an aexample filter panel. It send an ajax request to the '$STUDLY_NAME$' controller, to fetch new records and to update the table/resulsts
+    - current content is just placeholder scaffolding
+    - ajax request is done via existing frontend framework
+    - form reset is done via existing javascript
+-->
+
+<!-- right-sidebar -->
+<div class="right-sidebar" id="sidepanel-filter-mod-$LOWER_NAME$">
+    <form>
+        <div class="slimscrollright">
+
+            <!--heading-->
+            <div class="rpanel-title">
+                <i class="icon-Filter-2"></i>@lang('$LOWER_NAME$::lang.fooo')
+                <span>
+                    <i class="ti-close js-close-side-panels" data-target="sidepanel-filter-fooos"></i>
+                </span>
+            </div>
+
+            <div class="r-panel-body">
+
+                <!--[todo]
+                
+                
+                -->
+
+                <!--[todo] - this an an example filter option-->
+                <div class="filter-block">
+                    <div class="title">
+                        @lang('$LOWER_NAME$::lang.fooo_status')
+                    </div>
+                    <div class="fields">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <select class="select2-basic form-control form-control-sm"
+                                    id="mod_$LOWER_NAME$_satatus" name="mod_$LOWER_NAME$_satatus"
+                                    data-preselected="{{ $fooo->mod_$LOWER_NAME$_satatus ?? ''}}">
+                                    <option></option>
+                                    <option value="enabled">@lang('$LOWER_NAME$::lang.enabled')</option>
+                                    <option value="disabled">@lang('$LOWER_NAME$::lang.disabled')</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--buttons-->
+                <div class="buttons-block">
+                    <!--reset form-->
+                    <button type="button" name="foo1"
+                        class="btn btn-rounded-x btn-secondary js-reset-filter-side-panel">@lang('lang.reset')</button>
+                    <input type="hidden" name="action" value="search">
+                    <!--filter button-->
+                    <button type="button" class="btn btn-rounded-x btn-danger js-ajax-ux-request apply-filter-button"
+                        data-url="{{ urlResource('/modules/$LOWER_NAME$/search?') }}"
+                        data-type="form" data-ajax-type="GET">@lang('lang.apply_filter')</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

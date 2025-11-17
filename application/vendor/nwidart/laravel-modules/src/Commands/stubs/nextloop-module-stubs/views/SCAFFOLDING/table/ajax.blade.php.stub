@@ -1,0 +1,66 @@
+<!--[todo] 
+    - **IMPORTANT** - Follow the instructions fully
+    - the current content in this file is example scaffolding (follow it as applicable) and complete the file
+    - prefex url with url('/modules/$LOWER_NAME$/foo')
+    - remove this comment when done
+-->
+@foreach($fooos as $fooo)
+<!--each row-->
+<tr id="fooo_{{ $fooo->mod_$LOWER_NAME$_fooo_id }}">
+    
+    <!--[todo]
+
+        - ID
+           
+    
+    
+    -->
+
+
+    <!--[example] - Table row - Status labels-->
+    <td class="col_status">
+        @if($foo->foo_status == 'enabled')
+        <span class="label label-default">@lang('lang.enabled')</span>
+        @endif
+
+        @if($foo->foo_status == 'disabled')
+        <span class="label label-info">@lang('lang.disabled')</span>
+        @endif
+
+    </td>        
+
+    <td class="col_mod_$LOWER_NAME$_fooo_actions actions_column">
+        <!--action button-->
+        <span class="list-table-action dropdown font-size-inherit">
+            <!--[todo] delete-->
+            <button type="button" title="@lang('lang.delete')"
+                class="data-toggle-action-tooltip btn btn-outline-danger btn-circle btn-sm confirm-action-danger"
+                data-confirm-title="@lang('lang.delete_item')" data-confirm-text="@lang('lang.are_you_sure')"
+                data-ajax-type="DELETE"
+                data-url="{{ url('/') }}/modules/$LOWER_NAME$/{{ $fooo->mod_$LOWER_NAME$_fooo_id }}">
+                <i class="sl-icon-trash"></i>
+            </button>
+            
+            <!--[todo] edit button
+                - all the data-* attriubutes are required. Follow exactly
+                - the data-action-url will be dynamically added to the 'update' button in the modal (by another process) include it            
+            -->
+            <button type="button" title="@lang('lang.edit')"
+                class="data-toggle-action-tooltip btn btn-outline-success btn-circle btn-sm edit-add-modal-button js-ajax-ux-request reset-target-modal-form"
+                data-toggle="modal" 
+                data-target="#commonModal"
+                data-url="{{ urlResource('/modules/$LOWER_NAME$/'.$fooo->mod_$LOWER_NAME$_fooo_id.'/edit') }}"
+                data-loading-target="commonModalBody" 
+                data-modal-title="@lang('lang.edit_item')"
+                data-action-url="{{ urlResource('/modules/$LOWER_NAME$/'.$fooo->mod_$LOWER_NAME$_fooo_id) }}"
+                data-action-method="PUT" 
+                data-action-ajax-class="ajax-request"
+                data-action-ajax-loading-target="fooos-td-container">
+                <i class="sl-icon-note"></i>
+            </button>
+        </span>
+        <!--action button-->
+    </td>
+</tr>
+@endforeach
+<!--each row-->

@@ -1,0 +1,30 @@
+<?php
+/** 
+ * [todo]
+ *  - Complete this file
+ *  - This is just scaffolding/example code
+ *  - Remove this comment when done
+ */
+
+namespace Modules\$STUDLY_NAME$\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Fooo extends Model {
+
+    /**
+     * @primaryKey string - primry key column.
+     * @dateFormat string - date storage format
+     * @guarded string - allow mass assignment except specified
+     * @CREATED_AT string - creation date column
+     * @UPDATED_AT string - updated date column
+     */
+
+    //protected $table = 'mod_$LOWER_NAME$_fooos';
+    protected $primaryKey = 'mod_$LOWER_NAME$_fooo_id';
+    protected $dateFormat = 'Y-m-d H:i:s';
+    protected $guarded = ['mod_$LOWER_NAME$_fooo_id'];
+    const CREATED_AT = 'mod_$LOWER_NAME$_fooo_created';
+    const UPDATED_AT = 'mod_$LOWER_NAME$_fooo_updated';
+
+}

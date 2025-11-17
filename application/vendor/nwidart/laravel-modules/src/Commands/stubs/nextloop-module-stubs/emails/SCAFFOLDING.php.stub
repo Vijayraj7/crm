@@ -1,0 +1,71 @@
+<?php
+/** 
+ * [todo]
+ *  - Complete this file
+ *  - This is just scaffolding/example code
+ *  - Remove this comment when done
+ */
+
+/** --------------------------------------------------------------------------------
+ * [template]
+ * This classes renders the [new email] email and stores it in the queue
+ * It does not actually send the email. That is done by anothe process
+ * @package    Grow CRM
+ * @author     NextLoop
+ *----------------------------------------------------------------------------------*/
+
+namespace Modules\$STUDLY_NAME$\Emails;
+
+use Illuminate\Bus\Queueable;
+use Illuminate\Mail\Mailable;
+
+class $STUDLY_NAME$ extends Mailable {
+    use Queueable;
+
+    /**
+     * The data for merging into the email
+     */
+    public $data;
+
+    public $emailerrepo;
+
+    /**
+     * Create a new message instance.
+     *
+     * @return void
+     */
+    public function __construct($data = []) {
+
+        $this->data = $data;
+
+    }
+
+    /**
+     * Build the message.
+     *
+     * @return $this
+     */
+    public function build() {
+
+        //email template
+        if (!$settings = \Modules\$STUDLY_NAME$\Models\Settings::Where('mod_$LOWER_NAME$_setting_id', 1)->first()) {
+            return false;
+        }
+
+        //get common email variables
+        $payload = config('mail.data');
+
+        $payload += [
+            'foo' => $this->data['foo'],
+        ];
+
+        //save in the database queue
+        $queue = new \App\Models\EmailQueue();
+        $queue->emailqueue_to = $this->data['to_email'];
+        $queue->emailqueue_subject = parseEmailVariables($settings->mod_$LOWER_NAME$_setting_email_subject, $payload);
+        $queue->emailqueue_message = parseEmailVariables($settings->mod_$LOWER_NAME$_setting_email_body, $payload);
+        $queue->emailqueue_type = 'modules-$LOWER_NAME$-order';
+        $queue->save();
+    }
+
+}

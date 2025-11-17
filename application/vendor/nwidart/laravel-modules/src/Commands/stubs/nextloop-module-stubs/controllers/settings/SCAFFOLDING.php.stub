@@ -1,0 +1,104 @@
+<?php
+
+/** --------------------------------------------------------------------------------
+ * This controller manages all the business logic for template
+ *
+ * @package    Grow CRM
+ * @author     NextLoop
+ *----------------------------------------------------------------------------------*/
+
+namespace Modules\$STUDLY_NAME$\Http\Controllers\Settings;
+
+use App\Http\Controllers\Controller;
+use Modules\$STUDLY_NAME$\Http\Responses\Settings\IndexResponse;
+use Modules\$STUDLY_NAME$\Http\Responses\Settings\UpdateResponse;
+use Modules\$STUDLY_NAME$\Http\Requests\Settings\UpdateGeneral;
+
+class Fooos extends Controller {
+
+
+    public function __construct() {
+
+        //parent
+        parent::__construct();
+
+        //authenticated
+        $this->middleware('auth');
+
+        //admin users
+        $this->middleware('settingsMiddlewareIndex');
+    }
+
+    /**
+     * Display a listing of settings
+     * @return blade view | ajax view
+     */
+    public function index() {
+
+        //get team members
+        $settings = \Modules\$STUDLY_NAME$\Models\Settings::Where('mod_$LOWER_NAME$_setting_id', 1)->first();
+
+        //reponse payload
+        $payload = [
+            'page' => $this->pageSettings('general'),
+            'type' => 'general',
+            'settings' => $settings,
+        ];
+
+        //show the view
+        return new IndexResponse($payload);
+    }
+
+
+    /**
+     * Update the specified resource in storage.
+     * @param int $id resource id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(UpdateGeneral $request) {
+
+        $settings = \Modules\$STUDLY_NAME$\Models\Settings::Where('mod_$LOWER_NAME$_setting_id', 1)->first();
+
+        //update fooo
+        $settings->bar = request('bar');
+        $settings->save();
+
+        //reponse payload
+        $payload = [
+            'settings' => $settings,
+        ];
+
+        //generate a response
+        return new UpdateResponse($payload);
+    }
+
+
+
+    /**
+     * basic page setting for this section of the app
+     * @param string $section page section (optional)
+     * @param array $data any other data (optional)
+     * @return array
+     */
+    private function pageSettings($section = '', $data = []) {
+
+        //common settings
+        $page = [
+            'meta_title' => __('$LOWER_NAME$::lang.fooo'),
+            'heading' =>  __('$LOWER_NAME$::lang.fooo'),
+            'crumbs_special_class' => 'list-pages-crumbs',
+        ];
+
+        //generel settings
+        if ($section == 'general') {
+            $page['crumbs'] = [
+                __('lang.settings'),
+                __('$LOWER_NAME$::lang.fooo'),
+            ];
+            $page['page'] = 'settings module-$LOWER_NAME$-fooos';
+        }
+
+        //return
+        return $page;
+    }
+}

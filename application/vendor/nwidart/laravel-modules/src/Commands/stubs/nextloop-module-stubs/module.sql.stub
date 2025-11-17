@@ -1,0 +1,24 @@
+--- OPTIONAL FILE
+
+-- ADD MODULE TO THE DATABASE
+INSERT INTO `modules` (
+         `module_created`,
+         `module_updated`,
+         `module_name`,
+         `module_alias`,
+         `module_uniqueid`,
+         `module_description`,
+         `module_author_name`,
+         `module_author_url`,
+         `module_version`,
+         `module_status`) VALUES (
+         now(),	
+         now(),
+         '$STUDLY_NAME$',
+         '$STUDLY_NAME$',
+         SUBSTRING(MD5(CONCAT(UUID(), RAND())), 1, 50),
+         'A Grow CRM Module',
+         'ABC Dev Team',
+         'https://example.io',
+         '1.0',
+         'enabled');

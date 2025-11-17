@@ -1,0 +1,38 @@
+@extends('pages.settings.wrapper')
+@section('settings-page')
+<!--page notification-->
+<div class="row" id="mod_$LOWER_NAME$_setting">
+    <div class="col-12">
+
+        <!--item-->
+        <div class="form-group row">
+            <label
+                class="col-sm-12 text-left control-label col-form-label required">@lang('$LOWER_NAME$::lang.fooo')</label>
+            <div class="col-sm-12">
+                <input type="text" class="form-control form-control-sm" id="mod_$LOWER_NAME$_setting_fooo"
+                    name="mod_$LOWER_NAME$_setting_fooo" value="{{ $settings->mod_$LOWER_NAME$_setting_fooo ?? '' }}">
+            </div>
+        </div>
+
+        <!--buttons-->
+        <div class="text-right">
+            <button type="submit" id="commonModalSubmitButton"
+                class="btn btn-rounded-x btn-danger waves-effect text-left ajax-request"
+                data-loading-target="" 
+                data-ajax-type="PUT" 
+                data-type="form"
+                data-form-id="mod_$LOWER_NAME$_setting" 
+                data-url="{{ url('modules/$LOWER_NAME$/settings/general') }}" 
+                data-on-start-submit-button="disable">@lang('lang.save_changes')</button>
+        </div>
+    </div>
+</div>
+<!--JAVASCRIPT-->
+<script>
+    //set the main menu item as actuive
+    window.onload = function () {
+        $("#module_$LOWER_NAME$_settings").trigger('click');
+        $("#module_$LOWER_NAME$_settings_general").addClass('active');
+    };
+</script>
+@endsection

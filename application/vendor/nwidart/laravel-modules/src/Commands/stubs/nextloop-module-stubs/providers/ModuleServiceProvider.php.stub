@@ -1,0 +1,157 @@
+<?php
+
+namespace Modules\$STUDLY_NAME$\Providers;
+
+use Illuminate\Support\ServiceProvider;
+use Illuminate\Database\Eloquent\Factory;
+use Illuminate\Routing\Router;
+
+class ModuleServiceProvider extends ServiceProvider
+{
+    /**
+     * @var string $moduleName
+     */
+    protected $moduleName = '$STUDLY_NAME$';
+
+    /**
+     * @var string $moduleNameLower
+     */
+    protected $moduleNameLower = '$LOWER_NAME$';
+
+    /**
+     * Boot the application events.
+     *
+     * @return void
+     */
+    public function boot(Router $router)
+    {
+        $this->registerTranslations();
+        $this->registerConfig();
+        $this->registerViews();
+        $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
+        $this->registerMiddleware($router);
+        $this->moduleSettings();
+
+    }
+
+    /**
+     * Register the service provider.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        $this->app->register(RouteServiceProvider::class);
+
+        //Coronjon service
+        $this->app->register(CronServiceProvider::class);
+
+        //Listen to events
+        $this->app->register(ListenerServiceProvider::class);
+    }
+
+    /**
+     * Register config.
+     *
+     * @return void
+     */
+    protected function registerConfig()
+    {
+        $this->publishes([
+            module_path($this->moduleName, 'Config/config.php') => config_path($this->moduleNameLower . '.php'),
+        ], 'config');
+        $this->mergeConfigFrom(
+            module_path($this->moduleName, 'Config/config.php'), $this->moduleNameLower
+        );
+    }
+
+    /**
+     * Register views.
+     *
+     * @return void
+     */
+    public function registerViews()
+    {
+        $viewPath = resource_path('views/modules/' . $this->moduleNameLower);
+
+        $sourcePath = module_path($this->moduleName, 'Resources/views');
+
+        $this->publishes([
+            $sourcePath => $viewPath
+        ], ['views', $this->moduleNameLower . '-module-views']);
+
+        $this->loadViewsFrom(array_merge($this->getPublishableViewPaths(), [$sourcePath]), $this->moduleNameLower);
+    }
+
+    /**
+     * Register translations.
+     *
+     * @return void
+     */
+    public function registerTranslations()
+    {
+
+        //NEXTLOOP - load translation 
+        $this->loadTranslationsFrom(module_path($this->moduleName, 'Resources/lang/english/'), strtolower($this->moduleName));
+
+    }
+
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return [];
+    }
+
+    private function getPublishableViewPaths(): array
+    {
+        $paths = [];
+        foreach (\Config::get('view.paths') as $path) {
+            if (is_dir($path . '/modules/' . $this->moduleNameLower)) {
+                $paths[] = $path . '/modules/' . $this->moduleNameLower;
+            }
+        }
+        return $paths;
+    }
+
+    /**
+     * Register all module-specific middleware.
+     *
+     * @param Router $router
+     * @return void
+     */
+    protected function registerMiddleware(Router $router) {
+
+        $middlewares = [
+            //'$LOWER_NAME$FooosMiddlewareView' => \Modules\$STUDLY_NAME$\Http\Middleware\Fooos\View::class,
+            //'$LOWER_NAME$FooosMiddlewareManage' => \Modules\$STUDLY_NAME$\Http\Middleware\Fooos\Manage::class,      
+        ];
+
+        foreach ($middlewares as $alias => $class) {
+            $router->aliasMiddleware($alias, $class);
+        }
+    }
+
+
+    
+    /**
+     * set any global module settings here
+     *
+     * @return null
+     */
+    private function moduleSettings() {
+
+        //modules settings
+        /*
+        $settings = \Modules\$STUDLY_NAME$\Models\Settings::Where('mod_$LOWER_NAME$_settings_id', 1)->first();
+        config([
+            'mod_$LOWER_NAME$.foo' => $settings->bar;
+        ]);
+        */
+
+    }
+}
+

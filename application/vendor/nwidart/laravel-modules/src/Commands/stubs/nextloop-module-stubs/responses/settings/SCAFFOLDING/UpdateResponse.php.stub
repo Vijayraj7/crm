@@ -1,0 +1,41 @@
+<?php
+
+/** --------------------------------------------------------------------------------
+ * This classes renders the response for the [update] process for the fooo
+ * controller
+ * @package    Grow CRM
+ * @author     NextLoop
+ *----------------------------------------------------------------------------------*/
+
+namespace Modules\$STUDLY_NAME$\Http\Responses\Settings;
+use Illuminate\Contracts\Support\Responsable;
+
+class UpdateResponse implements Responsable {
+
+    private $payload;
+
+    public function __construct($payload = array()) {
+        $this->payload = $payload;
+    }
+
+    /**
+     * render the view for fooo members
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function toResponse($request) {
+
+        $jsondata['skip_dom_tinymce'] = true;
+
+        $jsondata['skip_dom_reset'] = true;
+
+        //notice
+        $jsondata['notification'] = array('type' => 'success', 'value' => __('lang.request_has_been_completed'));
+
+        //response
+        return response()->json($jsondata);
+
+    }
+
+}

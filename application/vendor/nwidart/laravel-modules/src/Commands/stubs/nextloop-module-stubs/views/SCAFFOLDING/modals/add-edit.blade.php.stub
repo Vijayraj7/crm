@@ -1,0 +1,14 @@
+<!--[todo] 
+    - **IMPORTANT** - Follow the instructions fully
+    - the current content in this file is example scaffolding (follow it as applicable) and complete the file
+    - cancel/save buttons are not required as they already exists in the modal wrapper and dynamically updated eslewhere
+    - remove this comment when done
+-->
+<!--item-->
+<div class="form-group row">
+    <label class="col-sm-12 col-lg-3 text-left control-label col-form-label required">@lang('$LOWER_NAME$::lang.fooo')</label>
+    <div class="col-sm-12 col-lg-9">
+        <input type="text" class="form-control form-control-sm" id="fooo_item" name="fooo_item"
+            value="{{ $fooo->fooo_item ?? '' }}">
+    </div>
+</div>

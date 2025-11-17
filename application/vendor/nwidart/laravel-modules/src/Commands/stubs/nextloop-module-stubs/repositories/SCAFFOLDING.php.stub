@@ -1,0 +1,95 @@
+<?php
+/** 
+ * [todo]
+ *  - Complete this file
+ *  - This is just scaffolding/example code
+ *  - Remove this comment when done
+ *  - table sorting is done via javascript in the frontend. No need to add any sorting logic in this repository
+ */
+
+/** --------------------------------------------------------------------------------
+ * This repository class manages all the data absctration for templates
+ *
+ * @fooo    Grow CRM
+ * @author     NextLoop
+ *----------------------------------------------------------------------------------*/
+
+namespace Modules\$STUDLY_NAME$\Repositories;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
+use Modules\$STUDLY_NAME$\Models\Fooo;
+
+class FooosRepository {
+
+    /**
+     * The leads repository instance.
+     */
+    protected $fooo;
+
+    /**
+     * Inject dependecies
+     */
+    public function __construct(Fooo $fooo) {
+        $this->fooo = $fooo;
+    }
+
+    /**
+     * Search model
+     * @param int $id optional for getting a single, specified record
+     * @return object fooos collection
+     */
+    public function search($id = '', $data = []) {
+
+        $fooos = $this->fooo->newQuery();
+
+        //default - always apply filters
+        if (!isset($data['apply_filters'])) {
+            $data['apply_filters'] = true;
+        }
+
+        //joins
+        $fooos->leftJoin('users', 'users.id', '=', 'mod_$LOWER_NAME$_fooos.mod_$LOWER_NAME$_fooo_creatorid');
+
+        // all client fields
+        $fooos->selectRaw('*');
+
+        //count all fooos
+        $fooos->selectRaw("(SELECT COUNT(*)
+                                      FROM mod_$LOWER_NAME$_fooos)
+                                      AS count_all_fooos");
+
+        //default where
+        $fooos->whereRaw("1 = 1");
+
+        //filters: id
+        if (request()->filled('filter_mod_$LOWER_NAME$_fooo_id')) {
+            $fooos->where('mod_$LOWER_NAME$_fooo_id', request('filter_mod_$LOWER_NAME$_fooo_id'));
+        }
+        if (is_numeric($id)) {
+            $fooos->where('mod_$LOWER_NAME$_fooo_id', $id);
+        }
+
+
+        //filter company
+        if (request()->filled('filter_mod_$LOWER_NAME$_fooo_bar')) {
+            $fooos->where('mod_$LOWER_NAME$_fooo_bar', request('filter_mod_$LOWER_NAME$_fooo_bar'));
+        }
+
+        //search: various client columns and relationships (where first, then wherehas)
+        if (request()->filled('search_query') || request()->filled('query')) {
+            $fooos->where(function ($query) {
+                $query->Where('mod_$LOWER_NAME$_fooo_bar', '=', request('search_query'));
+                $query->orWhere('mod_$LOWER_NAME$_fooo_bar', '=', request('search_query'));
+                $query->orWhere('mod_$LOWER_NAME$_fooo_bar', 'LIKE', '%' . date('Y-m-d', strtotime(request('search_query'))) . '%');
+            });
+
+        }
+
+        //default sorting
+        $fooos->orderBy('mod_$LOWER_NAME$_fooo_id', 'asc');
+
+        // Get the results and return them.
+        return $fooos->paginate(config('system.settings_system_pagination_limits'));
+    }
+}

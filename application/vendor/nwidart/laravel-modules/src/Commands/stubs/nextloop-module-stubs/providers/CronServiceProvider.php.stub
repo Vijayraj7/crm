@@ -1,0 +1,29 @@
+<?php
+/** ---------------------------------------------------------------------------------
+ * [MODULES]
+ * Schedule cronjob tasks
+ *-----------------------------------------------------------------------------------*/
+namespace Modules\$STUDLY_NAME$\Providers;
+
+use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Support\ServiceProvider;
+
+class CronServiceProvider extends ServiceProvider {
+
+    public function boot() {
+
+        //after app has booted
+        $this->app->booted(function () {
+
+            //start
+            $schedule = $this->app->make(Schedule::class);
+
+            //example cronjob
+            //$schedule->call(new \Modules\$STUDLY_NAME$\Cronjobs\ExampleCron)->everyMinute();
+        });
+
+    }
+
+    public function register() {
+    }
+}

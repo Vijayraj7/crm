@@ -1,0 +1,18 @@
+{
+  "name": "$STUDLY_NAME$",
+  "alias": "$STUDLY_NAME$",
+  "description": "",
+  "author": "",
+  "url": "",
+  "version": "",
+  "keywords": [],
+  "priority": 0,
+  "providers": [
+    "Modules\\$STUDLY_NAME$\\Providers\\ModuleServiceProvider"
+  ],
+  "aliases": {},
+  "files": [
+    "Helpers/Helpers.php"
+  ],
+  "requires": []
+}

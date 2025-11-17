@@ -1,0 +1,34 @@
+<!--[todo] 
+    - **IMPORTANT** - Follow the instructions fully
+    - This is the standard structure for module page wrappers. Do not change this format. Simply update to match the current task
+    - remove this comment when done
+-->
+@extends('layout.wrapper') @section('content')
+<!--JAVASCRIPT-->
+<script src="/application/modules/$LOWER_NAME$/resources/assets/js/events.js"></script>
+<!-- main content -->
+<div class="container-fluid">
+
+    <!--page heading-->
+    <div class="row page-titles">
+
+        <!-- Page Title & Bread Crumbs -->
+        @include('misc.heading-crumbs')
+
+
+        <!-- action buttons -->
+        @include('$LOWER_NAME$::fooos.misc.list-page-actions')
+
+    </div>
+
+    <!-- page content -->
+    <div class="row">
+        <div class="col-12">
+            @include('$LOWER_NAME$::fooos.table.wrapper')
+        </div>
+    </div>
+</div>
+<!--main content -->
+<!--module events js-->
+<script src="/application/modules/$LOWER_NAME$/resources/assets/js/events.js"></script>
+@endsection

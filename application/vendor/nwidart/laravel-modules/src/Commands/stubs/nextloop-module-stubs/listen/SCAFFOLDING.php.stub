@@ -1,0 +1,22 @@
+<?php
+
+namespace Modules\$STUDLY_NAME$\Listeners;
+
+use App\Events\Projects\ProjectCreated;
+use Log;
+
+class ListenFoooCreated {
+
+    /**
+     * Handle the event.
+     */
+    public function handle(ProjectCreated $event) {
+
+        //get the event data
+        $project = $event->project;
+        $fooo = $event->fooo;
+
+        //your module specific logic here
+        
+    }
+}

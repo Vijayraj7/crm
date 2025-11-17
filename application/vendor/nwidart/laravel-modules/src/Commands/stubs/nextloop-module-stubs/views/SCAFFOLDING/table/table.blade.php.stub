@@ -1,0 +1,51 @@
+<!--[todo] 
+    - **IMPORTANT** - Follow the instructions fully
+    - the current content in this file is example scaffolding (follow it as applicable) and complete the file
+    - table sorting is done via javascript 'table-sortable'
+    - pagination is done via @include('misc.load-more-button') (do not change this)
+    - follow the <tbody> and <tfoot> format
+    - follow the table style `table m-t-0 m-b-0 table-hover no-wrap table-sortable`. **Do NOT** add borders or your own custom table styling.
+    - ensure you have kept the <card> format
+    - remove this comment when done
+-->
+<div class="card" id="fooos-table-wrapper">
+    <div class="card-body">
+        <div class="table-responsive">
+            @if (@count($fooos ?? []) > 0)
+            <table id="fooos-table" class="table m-t-0 m-b-0 table-hover no-wrap table-sortable" data-page-size="10">
+                <thead>
+                    <tr>
+
+                        <th class="col_mod_fooo_specid">
+                            <a href="javascript:void(0)" data-field="app_equipment_name">@lang('$LOWER_NAME$::lang.spec_id')<span
+                            class="sorting-icons"><i class="ti ti-arrows-move-vertical"></i>
+                        </th>
+
+                        <!--actions-->
+                        <th class="col_mod_fooo_actions"><a
+                                href="javascript:void(0)">@lang('lang.action')</a></th>
+                    </tr>
+                </thead>
+                <tbody id="fooos-td-container">
+                    <!--ajax content here-->
+                    @include('$LOWER_NAME$::fooos.table.ajax')
+                    <!--ajax content here-->
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="20">
+                            <!--load more button-->
+                            @include('misc.load-more-button')
+                            <!--load more button-->
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+            @endif @if (@count($fooos ?? []) == 0)
+            <!--nothing found-->
+            @include('notifications.no-results-found')
+            <!--nothing found-->
+            @endif
+        </div>
+    </div>
+</div>

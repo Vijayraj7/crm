@@ -1,0 +1,45 @@
+<?php
+/** 
+ * [todo]
+ *  - Complete this file
+ *  - This is just scaffolding/example code
+ *  - Remove this comment when done
+ */
+
+/** -------------------------------------------------------------------------------------------------
+ * [MODULES] [CRONJOB]
+ * Email the specification as a PDF file to the client main user
+ * @package    Grow CRM
+ * @author     NextLoop
+ *---------------------------------------------------------------------------------------------------*/
+
+namespace Modules\$STUDLY_NAME$\Cronjobs;
+
+use Illuminate\Support\Facades\Log;
+use Modules\ActivityReport\Repositories\$STUDLY_NAME$Repository;
+
+class $STUDLY_NAME$Cron {
+
+    public function __invoke(
+        $STUDLY_NAME$Repository $$LOWER_NAME$repo
+    ) {
+
+        //[MT] - tenants only
+        if (env('MT_TPYE')) {
+            if (\Spatie\Multitenancy\Models\Tenant::current() == null) {
+                return;
+            }
+        }
+
+        //[MT] boot mail settings
+        env('MT_TPYE') ? middlewareSaaSBootMail() : middlewareBootMail();
+
+        //boot system settings
+        middlewareBootSettings();
+
+        Log::info("cronboj has run");
+
+        //do something great
+
+    }
+}

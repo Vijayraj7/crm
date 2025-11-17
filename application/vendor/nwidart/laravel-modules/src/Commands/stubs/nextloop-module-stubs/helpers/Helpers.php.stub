@@ -1,0 +1,10 @@
+<?php
+
+/**
+ * do something
+ * @return string a very random unique id
+ */
+
+function $LOWER_NAME$FooBar($id = '') {
+    return 'foo';
+}

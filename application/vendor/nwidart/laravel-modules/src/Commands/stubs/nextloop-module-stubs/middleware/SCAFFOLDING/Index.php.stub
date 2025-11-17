@@ -1,0 +1,49 @@
+<?php
+/** 
+ * [todo]
+ *  - Complete this file
+ *  - This is just scaffolding/example code
+ *  - Remove this comment when done
+ */
+
+/** --------------------------------------------------------------------------------
+ * This middleware class handles [index] precheck processes for fooos
+ *
+ * @author     NextLoop
+ *----------------------------------------------------------------------------------*/
+
+namespace Modules\$STUDLY_NAME$\Http\Middleware\Fooos;
+use Closure;
+use Log;
+
+class Index {
+
+
+    public function handle($request, Closure $next) {
+
+        //various frontend and visibility settings
+        $this->fronteEnd();
+
+        //check user permission
+        if (auth()->user()->is_team) {
+            if (auth()->user()->role->module->$LOWER_NAME$ == 'view' || auth()->user()->role->module->$LOWER_NAME$ == 'manage') {      
+                return $next($request);
+            }
+        }
+
+        //permission denied
+        abort(403);
+    }
+
+    /*
+     * various frontend and visibility settings
+     */
+    private function fronteEnd() {
+
+        //set dom element visibility (optional)
+        config([
+            'visibility.foo_bar_ement' => true
+        ]);
+
+    }
+}

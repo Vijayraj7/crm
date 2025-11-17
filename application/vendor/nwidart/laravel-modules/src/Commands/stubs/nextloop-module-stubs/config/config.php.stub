@@ -1,0 +1,39 @@
+<?php
+
+return [
+
+    /** -------------------------------------------------------------------------
+      * [REQUIRED]
+      * This is the user-friendly name of your application. This is how it will
+      * be shown inside the CRM
+      * -------------------------------------------------------------------------*/
+    'name' => '$STUDLY_NAME$',
+
+    /** -------------------------------------------------------------------------
+      * [REQUIRED]
+      * This is the version number
+      * -------------------------------------------------------------------------*/
+    'version' => '1.0',
+
+    /** -------------------------------------------------------------------------
+      * [REQUIRED]
+      * Your module's unique id. This is required
+      * - Use it especially in databse common tables where rows for your modules
+      * need to be deleted during uninstall (e.e. email templates table)
+      * - Generate one using PHP uniqid() function.
+      * - echo uniqid('', true);
+      * -------------------------------------------------------------------------*/
+      'module_id' => '',
+
+    /** -------------------------------------------------------------------------
+      * [REQUIRED]
+      * This is the author name
+      * -------------------------------------------------------------------------*/
+    'author_name' => '',
+
+    /** -------------------------------------------------------------------------
+      * [OPTIONAL]
+      * This is the author website URL
+      * -------------------------------------------------------------------------*/
+    'author_url' => '',
+];

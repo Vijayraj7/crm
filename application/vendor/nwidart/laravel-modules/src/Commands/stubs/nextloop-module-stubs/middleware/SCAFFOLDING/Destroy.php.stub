@@ -1,0 +1,48 @@
+<?php
+/** 
+ * [todo]
+ *  - Complete this file
+ *  - This is just scaffolding/example code
+ *  - Remove this comment when done
+ */
+
+/** --------------------------------------------------------------------------------
+ * This middleware class handles [destroy] pre-check processes for fooos
+ *
+ * @author     NextLoop
+ *----------------------------------------------------------------------------------*/
+
+namespace Modules\$STUDLY_NAME$\Http\Middleware\Fooos;
+use Closure;
+use Log;
+
+class Destroy {
+
+    /**
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @return mixed
+     */
+    public function handle($request, Closure $next) {
+
+        //location unique id
+        $uniqueid = $request->route('$LOWER_NAME$');
+
+        //does the location exist
+        if ($uniqueid == '' || !$fooo = \Modules\$STUDLY_NAME$\Models\Fooo::Where('mod_$LOWER_NAME$_fooo_uniqueid', $uniqueid)->first()) {
+            Log::info("fooo could not be found", ['middleware.$LOWER_NAME$.fooo.destroy', config('app.debug_ref'), basename(__FILE__), __line__]);
+            abort(404);
+        }
+
+        //check user permission
+        if (auth()->user()->is_team) {
+            if (auth()->user()->role->module->$LOWER_NAME$ == 'manage') {      
+                return $next($request);
+            }
+        }
+
+        //permission denied
+        abort(403);
+    }
+}

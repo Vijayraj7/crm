@@ -1,0 +1,248 @@
+<?php
+/** 
+ * [todo]
+ *  - Complete this file
+ *  - This is just scaffolding/example code
+ *  - Remove this comment when done
+ */
+
+/** --------------------------------------------------------------------------------
+ * This controller manages all the business logic for template
+ *
+ * @package    Grow CRM
+ * @author     NextLoop
+ *----------------------------------------------------------------------------------*/
+
+namespace Modules\$STUDLY_NAME$\Http\Controllers;
+
+use App\Http\Controllers\Controller;
+use Modules\$STUDLY_NAME$\Http\Responses\Fooos\IndexResponse;
+use Modules\$STUDLY_NAME$\Http\Responses\Fooos\CreateResponse;
+use Modules\$STUDLY_NAME$\Http\Responses\Fooos\StoreResponse;
+use Modules\$STUDLY_NAME$\Http\Responses\Fooos\UpdateResponse;
+use Modules\$STUDLY_NAME$\Http\Responses\Fooos\DestroyResponse;
+use Modules\$STUDLY_NAME$\Repositories\FoooRepository;
+use App\Rules\NoTags;
+use Illuminate\Http\Request;
+//use Modules\$STUDLY_NAME$\Http\Requests\Fooo\StoreUpdate;
+use Validator;
+
+class Fooos extends Controller {
+
+    /**
+     * The fooo repository instance.
+     */
+    protected $fooorepo;
+
+    public function __construct(FoooRepository $fooorepo) {
+
+        //parent
+        parent::__construct();
+
+        //authenticated
+        $this->middleware('auth');
+
+        $this->middleware('$LOWER_NAME$MiddlewareView')->only([
+            'index',
+        ]);
+
+        $this->middleware('$LOWER_NAME$MiddlewareManage')->only([
+            'create',
+            'store',
+            'edit',
+            'update',
+            'destroy',
+        ]);
+
+        $this->fooorepo = $fooorepo;
+    }
+
+    /**
+     * Display a listing of fooos
+     * @return blade view | ajax view
+     */
+    public function index() {
+
+        //get team members
+        $fooos = $this->fooorepo->search();
+
+        //reponse payload
+        $payload = [
+            'page' => $this->pageSettings('fooos'),
+            'fooos' => $fooos,
+        ];
+
+        //show the view
+        return new IndexResponse($payload);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     * @return \Illuminate\Http\Response
+     */
+    public function create() {
+
+        //reponse payload
+        $payload = [
+            'page' => $this->pageSettings('create'),
+        ];
+
+        //show the form
+        return new CreateResponse($payload);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     * @return \Illuminate\Http\Response
+     */
+    public function store(StoreUpdate $request) {
+
+        //count rows
+        $fooo= new \Modules\$STUDLY_NAME$\Models\Fooo();
+        $fooo->bar = 'fooo';
+        $fooo->bar = 'fooo';
+        $fooo->save();
+
+        //get the fooo object (friendly for rendering in blade template)
+        $fooos = $this->fooorepo->search($fooo->fooo_id);
+
+        //count all rows
+        $rows = $this->fooorepo->search();
+        $count = $rows->total();        
+
+        //reponse payload
+        $payload = [
+            'fooos' => $fooos,
+            'count' => $count,
+        ];
+
+        //process reponse
+        return new StoreResponse($payload);
+
+    }
+
+    /**
+     * Display the specified resource.
+     * @param int $id resource id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id) {
+
+        //validate
+        if (!$fooo = \Modules\$STUDLY_NAME$\Models\Fooo::Where('fooo_id', $id)->first()) {
+             abort(404);
+        }
+
+        //get the fooo
+        $fooo = $this->fooorepo->search($id);
+        $fooo = $fooo->first();
+
+        //reponse payload
+        $payload = [
+            'page' => $this->pageSettings('show'),
+            'fooo' => $fooo,
+        ];
+
+        //response
+        return new ShowResponse($payload);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     * @param int $id resource id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id) {
+
+        //validate
+        if (!$fooo = \Modules\$STUDLY_NAME$\Models\Fooo::Where('fooo_id', $id)->first()) {
+            abort(404);
+       }
+
+        //get the fooo
+        $fooo = $this->fooorepo->search($id);
+        $fooo = $fooo->first();
+
+        //reponse payload
+        $payload = [
+            'page' => $this->pageSettings('edit'),
+            'fooo' => $fooo,
+        ];
+
+        //response
+        return new EditResponse($payload);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     * @param int $id resource id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(StoreUpdate $request, $id) {
+
+        //validate
+        if (!$fooo = \Modules\$STUDLY_NAME$\Models\Fooo::Where('fooo_id', $id)->first()) {
+             abort(404);
+        }
+
+        //update fooo
+        $fooo->bar = request('bar');
+        $fooo->save();
+
+        //reponse payload
+        $payload = [
+            'fooos' => $fooos,
+        ];
+
+        //generate a response
+        return new UpdateResponse($payload);
+    }
+
+    /**
+     * Remove the specified item from storage.
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id) {
+
+        //validate
+        if (!$fooo = \Modules\$STUDLY_NAME$\Models\Fooo::Where('fooo_id', $id)->first()) {
+             abort(404);
+        }
+        
+        //delete record
+        $fooo->delete();
+
+        //reponse payload
+        $payload = [
+            'id' => $id,
+        ];
+
+        //generate a response
+        return new DestroyResponse($payload);
+    }
+
+    /**
+     * basic page setting for this section of the app
+     * @param string $section page section (optional)
+     * @param array $data any other data (optional)
+     * @return array
+     */
+    private function pageSettings($section = '', $data = []) {
+
+        //common settings
+        $page = [
+            'crumbs' => [
+                __('$LOWER_NAME$::lang.$LOWER_NAME$'),
+                __('$LOWER_NAME$::lang.fooos'),
+            ],
+            'meta_title' => __('$LOWER_NAME$::lang.fooos'),
+            'heading' =>  __('$LOWER_NAME$::lang.fooos'),
+            'page' => 'fooos',
+            'main_menu_id' => 'module_$LOWER_NAME$_menu_main',
+            'sub_menu_id' => 'module_$LOWER_NAME$_fooos',
+        ];                
+
+        //return
+        return $page;
+    }
+}

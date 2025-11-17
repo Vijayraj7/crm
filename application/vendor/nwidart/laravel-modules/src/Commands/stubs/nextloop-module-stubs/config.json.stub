@@ -1,0 +1,15 @@
+{
+  "menus": [
+    {
+      "placement": "main",
+      "type": "single",
+      "parent": "modules.menus.main.parent",
+      "title": "$LOWER_NAME$::lang.foobar",
+      "id": "module_$LOWER_NAME$_foobar",
+      "icon": "sl-icon-star",
+      "class": "module_$LOWER_NAME$_foobar",
+      "user_type": "team",
+      "href": "example.com"
+    }
+  ]
+}

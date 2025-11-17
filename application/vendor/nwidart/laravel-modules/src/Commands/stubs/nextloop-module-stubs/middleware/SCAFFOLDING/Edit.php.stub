@@ -1,0 +1,58 @@
+<?php
+/** 
+ * [todo]
+ *  - Complete this file
+ *  - This is just scaffolding/example code
+ *  - Remove this comment when done
+ */
+
+/** --------------------------------------------------------------------------------
+ * This middleware class handles [edit] pre-check processes for fooos
+ *
+ * @author     NextLoop
+ *----------------------------------------------------------------------------------*/
+
+namespace Modules\$STUDLY_NAME$\Http\Middleware\Fooos;
+use Closure;
+use Log;
+
+class Edit {
+
+
+    public function handle($request, Closure $next) {
+
+        //fooo id
+        $fooo_id = $request->route('$LOWER_NAME$');
+
+        //frontend
+        $this->fronteEnd();
+
+        //does the fooo exist
+        if ($fooo_id == '' || !$fooo = \Modules\$STUDLY_NAME$\Models\Fooo::Where('fooo_id', $fooo_id)->first()) {
+            Log::info("fooo could not be found", ['middleware.$LOWER_NAME$.fooo.destroy', config('app.debug_ref'), basename(__FILE__), __line__]);
+            abort(404);
+        }
+
+        //check user permission
+        if (auth()->user()->is_team) {
+            if (auth()->user()->role->module->$LOWER_NAME$ == 'manage') {      
+                return $next($request);
+            }
+        }
+
+        //permission denied
+        abort(403);
+    }
+
+    /*
+     * various frontend and visibility settings
+     */
+    private function fronteEnd() {
+
+        //set dom element visibility (optional)
+        config([
+            'visibility.foo_bar_ement' => true
+        ]);
+        
+    }
+}

@@ -1,0 +1,41 @@
+<?php
+
+/** --------------------------------------------------------------------------------
+ * This classes renders the response for the [edit] process for the fooo
+ * controller
+ * @package    Grow CRM
+ * @author     NextLoop
+ *----------------------------------------------------------------------------------*/
+
+ namespace Modules\$STUDLY_NAME$\Http\Responses\Settings;
+use Illuminate\Contracts\Support\Responsable;
+
+class IndexResponse implements Responsable {
+
+    private $payload;
+
+    public function __construct($payload = array()) {
+        $this->payload = $payload;
+    }
+
+    /**
+     * render the view for fooo members
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function toResponse($request) {
+
+        //set all data to arrays
+        foreach ($this->payload as $key => $value) {
+            $$key = $value;
+        }
+
+        //general settings
+        if ($type == 'general') {
+            return view('$LOWER_NAME$::settings/general', compact('page', 'settings'));
+        }
+
+    }
+
+}

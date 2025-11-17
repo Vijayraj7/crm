@@ -1,0 +1,12 @@
+<!--[todo] 
+    - **IMPORTANT** - Follow the instructions fully
+    - This is the standard structure for module page wrappers. Do not change this format. Simply update to match the current task
+    - remove this comment when done
+-->
+<!-- action buttons -->
+@include('$LOWER_NAME$::fooos.misc.list-page-actions')
+
+<!--table-->
+<div class="card-embed-fix">
+@include('$LOWER_NAME$::fooos.table.wrapper')
+</div>
